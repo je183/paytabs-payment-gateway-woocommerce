@@ -1,0 +1,136 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Credit Card Payment Gateway - PayTabs\n"
+"POT-Creation-Date: 2017-11-20 12:43+0300\n"
+"PO-Revision-Date: 2017-11-20 12:44+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-WPHeader: paytabs_creditcard_wc.php\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: paytabs_creditcard_wc.php:77
+msgid "Enable/Disable"
+msgstr "تفعيل/تعطيل"
+
+#: paytabs_creditcard_wc.php:79
+msgid "Enable PayTabs Payment Gateway ."
+msgstr "تمكين بايتابس بوابة الدفع."
+
+#: paytabs_creditcard_wc.php:82
+msgid "Title:"
+msgstr "العنوان:"
+
+#: paytabs_creditcard_wc.php:84 paytabs_creditcard_wc.php:89
+msgid ""
+"Making any changes to the above may result in suspension or termination of "
+"your PayTabs Merchant Account."
+msgstr ""
+"إجراء أي تغييرات على ما سبق قد يؤدي إلى تعليق أو إنهاء حساب تاجر بايتاب "
+"الخاص بك."
+
+#. Author of the plugin/theme
+#: paytabs_creditcard_wc.php:85 paytabs_creditcard_wc.php:122
+msgid "PayTabs"
+msgstr "PayTabs"
+
+#: paytabs_creditcard_wc.php:87
+msgid "Description:"
+msgstr "الوصف :"
+
+#: paytabs_creditcard_wc.php:90
+msgid ""
+"Pay securely by Credit or Debit card or internet banking through PayTabs "
+"Secure Servers."
+msgstr ""
+"الدفع بشكل آمن عن طريق بطاقة الائتمان أو الخصم أو الخدمات المصرفية عبر "
+"الإنترنت من خلال بايتابس خوادم آمنة."
+
+#: paytabs_creditcard_wc.php:92
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: paytabs_creditcard_wc.php:95
+msgid "Please enter the email id of your PayTabs merchant account."
+msgstr "يرجى إدخال معرف البريد الإلكتروني الخاص بك حساب التاجر بيتاب."
+
+#: paytabs_creditcard_wc.php:100
+msgid "Secret Key"
+msgstr "المفتاح السري"
+
+#: paytabs_creditcard_wc.php:104
+msgid ""
+"Please enter your PayTabs Secret Key. You can find the secret key on your "
+"Merchant’s Dashboard >> PayTabs Services >> ecommerce Plugins and API."
+msgstr ""
+"الرجاء إدخال المفتاح السري الخاص ب بايتابس. يمكنك العثور على المفتاح السري "
+"على لوحة التاجر الخاص بك >> خدمات بيتابس >> الإضافات التجارة الإلكترونية و "
+"أبي."
+
+#: paytabs_creditcard_wc.php:108
+msgid "WebSite"
+msgstr "الموقع الإلكتروني"
+
+#: paytabs_creditcard_wc.php:111
+msgid ""
+"Please enter your Website; Your SITE URL MUST match to the website URL you "
+"provided in your PayTabs merchant account (Case Sensitive). For Demo Users: "
+"You can edit your site URL by going to “My Profile” and clicking on edit, "
+"enter your correct site URL and click on Save. For Live Merchants: You can "
+"use the website that you have submitted in the Go-Live application. If you "
+"need to edit/change the site URL, you can send a request to "
+msgstr ""
+"الرجاء إدخال موقعك الإلكتروني. يجب أن يتطابق عنوان ورل لموقعك مع عنوان ورل "
+"لموقع الويب الذي قدمته في حساب التاجر في بيتاب (حساس لحالة الأحرف). "
+"للمستخدمين التجريبيين: يمكنك تعديل عنوان ورل لموقعك من خلال الانتقال إلى "
+"\"ملفي الشخصي\" والنقر على تعديل، وأدخل عنوان ورل الصحيح لموقعك وانقر على "
+"حفظ. للتجار المباشرين: يمكنك استخدام موقع الويب الذي أرسلته في تطبيق غو-"
+"ليف. إذا كنت بحاجة إلى تعديل / تغيير عنوان ورل للموقع، يمكنك إرسال طلب إلى"
+
+#: paytabs_creditcard_wc.php:346
+msgid "Payment failed"
+msgstr "عملية الدفع فشلت."
+
+#: paytabs_creditcard_wc.php:365
+msgid "Transaction declined ."
+msgstr "تم رفض المعاملة."
+
+#: paytabs_creditcard_wc.php:484
+msgid ""
+"Thank you for shopping with us. Your account has been charged and your "
+"transaction is successful. We will be shipping your order to you soon."
+msgstr ""
+"شكرا للتسوق معنا. تم تحصيل رسوم من حسابك وتمت إجراء المعاملة بنجاح. سيتم "
+"شحن طلبك قريبا."
+
+#: paytabs_creditcard_wc.php:492
+msgid "Payment Cancelled"
+msgstr "تم الغاء الدفع"
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Credit Card Payment Gateway - PayTabs"
+msgstr "ووكومرس بطاقة الائتمان بوابة الدفع - بايتبس"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.paytabs.com/plugin"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"PayTabs Credit Card Payment gateway for woocommerce. This plugin supports "
+"woocommerce version 3.0.0 or greater version."
+msgstr ""
+"بايتابس بطاقة الائتمان بوابة الدفع ل ووكومرس. هذا البرنامج المساعد يدعم "
+"ووكومرس الإصدار 3.0.0 أو إصدار أكبر."
