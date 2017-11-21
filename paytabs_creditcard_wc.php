@@ -62,7 +62,7 @@ function woocommerce_paytabs_creditcard_wc_init()
             $this->website = $this->settings['website'];
             $this->merchant_id = $this->settings['merchant_id'];
             $this->password = $this->settings['password'];
-            $this->redirect_page_id = $this->settings['redirect_page_id'];
+            $this->redirect_page_id = $this->settings['redirect_page_id'] ?? 0;
             //live payment url
             $this->liveurl = 'https://www.paytabs.com/';
             $this->form_submission_method = $this->get_option('form_submission_method') == 'yes' ? true : false;
@@ -96,24 +96,24 @@ function woocommerce_paytabs_creditcard_wc_init()
                     'title' => __('Enable/Disable', 'PayTabs'),
                     'type' => 'checkbox',
                     'label' => __('Enable PayTabs Payment Gateway .', 'PayTabs'),
-                    'default' => 'no', ],
+                    'default' => 'no',],
                 'title' => [
                     'title' => __('Title:', 'PayTabs'),
                     'type' => 'text',
                     'description' => __('Making any changes to the above may result in suspension or termination of your PayTabs Merchant Account.', 'PayTabs'),
-                    'default' => __('PayTabs', 'PayTabs'), ],
+                    'default' => __('PayTabs', 'PayTabs'),],
                 'description' => [
                     'title' => __('Description:', 'PayTabs'),
                     'type' => 'textarea',
                     'description' => __('Making any changes to the above may result in suspension or termination of your PayTabs Merchant Account.', 'PayTabs'),
-                    'default' => __('Pay securely by Credit or Debit card or internet banking through PayTabs Secure Servers.', 'PayTabs'), ],
+                    'default' => __('Pay securely by Credit or Debit card or internet banking through PayTabs Secure Servers.', 'PayTabs'),],
                 'merchant_id' => [
                     'title' => __('Email', 'PayTabs'),
                     'type' => 'text',
                     'value' => '',
                     'description' => __('Please enter the email id of your PayTabs merchant account.', 'PayTabs'),
                     'default' => '',
-                    'required' => true, ],
+                    'required' => true,],
 
                 'password' => [
                     'title' => __('Secret Key', 'PayTabs'),
@@ -122,8 +122,9 @@ function woocommerce_paytabs_creditcard_wc_init()
                     'size' => '120',
                     'description' => __('Please enter your PayTabs Secret Key. You can find the secret key on your Merchant’s Dashboard >> PayTabs Services >> ecommerce Plugins and API.', 'PayTabs'),
                     'default' => '',
-                    'required' => true, ],
+                    'required' => true,],
                 'website' => [
+
                     'title' => __('WebSite', 'PayTabs'),
                     'type' => 'text',
                     'value' => '',
@@ -197,8 +198,6 @@ function woocommerce_paytabs_creditcard_wc_init()
             $_SESSION['secret_key'] = $this->password;
             $_SESSION['merchant_id'] = $this->merchant_id;
 
-            $lang_ = isset($locale) ? 'Arabic' : 'English';
-
             // PayTabs Args
             $paytabs_args = [
                 'txnid' => $txnid,
@@ -271,10 +270,18 @@ function woocommerce_paytabs_creditcard_wc_init()
                     ++$item_loop;
                     $product = $order->get_product_from_item($item);
                     $item_name = $item['name'];
-                    $item_meta = new WC_Order_Item_Meta($item['item_meta']);
-                    if ($meta = $item_meta->display(true, true)) {
-                        $item_name .= ' ( ' . $meta . ' )';
+                    $meta = wc_display_item_meta($item, array(
+                        'before' => '',
+                        'after' => '',
+                        'separator' => '',
+                        'echo' => false,
+                        'autop' => true,
+                    ));
+
+                    if (!empty($meta)) {
+                        $item_name .= ' ( ' . strip_tags($meta) . ' )';
                     }
+
                     //product description
                     if ($paytabs_args['products_per_title'] != '') {
                         $paytabs_args['products_per_title'] = $paytabs_args['products_per_title'] . ' || ' . $item_name;
@@ -447,33 +454,36 @@ function woocommerce_paytabs_creditcard_wc_init()
             return $cancel_endpoint;
         }
 
-        //Cancel order
-        public function get_cancel_order_url($redirect = '')
+        /**
+         * Get cancel order url
+         *
+         * @param WC_Order $order
+         * @param string $redirect
+         *
+         * @return string
+         */
+        public function get_cancel_order_url($order, $redirect = '')
         {
-            // Get cancel endpoint
-            $cancel_endpoint = $this->get_cancel_endpoint();
-
-            return apply_filters('woocommerce_get_cancel_order_url', wp_nonce_url(add_query_arg([
+            return apply_filters('woocommerce_get_cancel_order_url_raw', add_query_arg(array(
                 'cancel_order' => 'true',
-                'order' => $this->order_key,
-                'order_id' => $this->id,
+                'order' => $this->id,
+                'order_id' => $order->get_id(),
                 'redirect' => $redirect,
-            ], $cancel_endpoint), 'woocommerce-cancel_order'));
+            ), $this->get_cancel_endpoint()));
         }
 
-        /*
-        When transaction completed it is check the status
-        is transaction completed or rejected
-        */
+        /**
+         * When transaction completed it is check the status is transaction completed or rejected
+         */
         public function complete_transaction()
         {
-            global $woocommerce;
             $order = new WC_Order($_SESSION['order_id']);
 
             $request_string = [
                 'secret_key' => $_SESSION['secret_key'],
                 'merchant_email' => $_SESSION['merchant_id'],
                 'payment_reference' => $_REQUEST['payment_reference'],
+                'msg_lang' => is_rtl() ? 'Arabic' : 'English',
             ];
             $gateway_url = $this->liveurl . 'apiv2/verify_payment';
             $getdataresponse = $this->sendRequest($gateway_url, $request_string);
@@ -484,26 +494,23 @@ function woocommerce_paytabs_creditcard_wc_init()
                 if ($object->response_code == '100') {
                     //  thankyou and set error message
                     $this->msg['class'] = 'woocommerce_message';
-                    $check = $order->payment_complete();
-                    // Reduce stock levels
-                    //$order->reduce_order_stock();
+                    // process payment complete.
+                    $order->payment_complete();
                     // Remove cart
-
-                    $woocommerce->cart->empty_cart();
-
-                    wc_add_notice('' . __('Thank you for shopping with us. Your account has been charged and your transaction is successful. We will be shipping your order to you soon.', 'PayTabs'), 'success');
-
-                    wp_redirect($this->get_return_url($order));
-                    exit;
+                    wc()->cart->empty_cart();
+                    wc_add_notice(__('Thank you for shopping with us. Your account has been charged and your transaction is successful. We will be shipping your order to you soon.', 'PayTabs'), 'success');
+                    // Redirect back to view order
+                    $redirect = $this->get_return_url($order);
+                } else {
+                    // Change the status to pending / unpaid
+                    $order->update_status('failed', __('Payment Cancelled', 'error'));
+                    // Add error for the customer when we return back to the cart
+                    wc_add_notice('<strong></strong> ' . __($object->result, 'error'), 'error');
+                    // Redirect back to the last step in the checkout process
+                    $redirect = $this->get_cancel_order_url($order, wc_get_cart_url());
                 }
 
-                // Change the status to pending / unpaid
-                $order->update_status('failed', __('Payment Cancelled', 'error'));
-                // Add error for the customer when we return back to the cart
-                $message = $object->result;
-                wc_add_notice('<strong></strong> ' . __($message, 'error'), 'error');
-                // Redirect back to the last step in the checkout process
-                wp_redirect($this->get_cancel_order_url($order));
+                wp_redirect($redirect);
                 exit;
             }
         }
