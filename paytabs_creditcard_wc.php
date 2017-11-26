@@ -4,8 +4,8 @@
  * Plugin URI: http://www.paytabs.com/plugin
  * Description: PayTabs Credit Card Payment gateway for woocommerce. This plugin supports woocommerce version 3.0.0 or greater version.
  * Version: 2.2
- * Author: PayTabs
- * Author URL: http://www.pgit aytabs.com
+ * Author: PayTabs (fixed issues by salah alkhwlani)
+ * Author URL: http://www.paytabs.com
  * Text Domain: PayTabs
  * Domain Path: /i18n/languages/.
  **/
