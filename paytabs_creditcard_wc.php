@@ -268,7 +268,7 @@ function woocommerce_paytabs_creditcard_wc_init()
             foreach ($order->get_items() as $item) {
                 if ($item['qty']) {
                     ++$item_loop;
-                    $product = $order->get_product_from_item($item);
+                    //$product = $order->get_product_from_item($item);
                     $item_name = $item['name'];
                     $meta = wc_display_item_meta($item, array(
                         'before' => '',
